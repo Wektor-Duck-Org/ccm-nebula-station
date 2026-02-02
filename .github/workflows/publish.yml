@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
   schedule:
   - cron: '0 1 * * *'
+
 jobs:
   build:
     runs-on: self-hosted
@@ -48,6 +49,13 @@ jobs:
       uses: actions/setup-dotnet@v4.1.0
       with:
         dotnet-version: 10.0.x
+      env:
+        DOTNET_INSTALL_DIR: ${{ runner.temp }}/dotnet
+
+    - name: Add dotnet to PATH
+      run: |
+        echo "${{ runner.temp }}/dotnet" >> $GITHUB_PATH
+        echo "DOTNET_ROOT=${{ runner.temp }}/dotnet" >> $GITHUB_ENV
 
     - name: Get Engine Tag
       run: |
